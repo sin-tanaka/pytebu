@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 requests-html = "*"
 PrettyTable = "*"
+click = "*"
 
 [dev-packages]
 

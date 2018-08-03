@@ -6,7 +6,8 @@ with open("README.md", "r") as fh:
 
 required = [
     'requests-html',
-    'prettytable'
+    'prettytable',
+    'click',
 ]
 setuptools.setup(
     name="pytebu",
