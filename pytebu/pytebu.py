@@ -1,14 +1,16 @@
 from requests_html import HTMLSession
 from prettytable import PrettyTable
+from click import (
+    argument,
+    command,
+    option,
+)
 
-
-def cli():
-    pass
+CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
+HATENA_URL_BASE = 'http://b.hatena.ne.jp/hotentry/'
 
 
 def get_hatena_hotentry(category='all', top=10):
-    HATENA_URL_BASE = 'http://b.hatena.ne.jp/hotentry/'
-
     url = HATENA_URL_BASE + category
 
     session = HTMLSession()
@@ -40,5 +42,31 @@ def print_article(aelm, uelm):
     return links
 
 
+def get_hatena_categories():
+    session = HTMLSession()
+    r = session.get(HATENA_URL_BASE)
+
+    # 大枠のコンテンツ取得
+    sel = '#container > div.navi-wrapper.js-navi-category-wrapper.is-unscrolled'
+    category_elms = r.html.find(sel, first=True).find('.navi-link')
+
+    categories = [list(i.links)[0].split('/')[-1] for i in category_elms]
+
+    print(categories)
+
+
+@command(short_help="Hatena category", context_settings=CONTEXT_SETTINGS)
+@argument('category', required=False)
+@option('--list/-l', 'list_category', is_flag=True, default=False)
+def cli(
+        category='all',
+        list_category=False,
+):
+    if list_category:
+        get_hatena_categories()
+    else:
+        get_hatena_hotentry(category)
+
+
 if __name__ == '__main__':
-    get_hatena_hotentry()
+    cli()

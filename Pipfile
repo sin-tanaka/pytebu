@@ -5,7 +5,7 @@ name = "pypi"
 
 [packages]
 requests-html = "*"
-prettytable = "*"
+PrettyTable = "*"
 
 [dev-packages]
 
