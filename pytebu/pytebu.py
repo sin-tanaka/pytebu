@@ -4,9 +4,10 @@ from click import (
     argument,
     command,
     option,
+    echo,
 )
 
-CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
+CONTEXT_SETTINGS = dict(ignore_unknown_options=True, help_option_names=["-h", "--help"])
 HATENA_URL_BASE = 'http://b.hatena.ne.jp/hotentry/'
 
 
@@ -52,18 +53,20 @@ def get_hatena_categories():
 
     categories = [list(i.links)[0].split('/')[-1] for i in category_elms]
 
-    print(categories)
+    echo(categories)
 
 
 @command(short_help="Hatena category", context_settings=CONTEXT_SETTINGS)
 @argument('category', required=False)
-@option('--list/-l', 'list_category', is_flag=True, default=False, help='Show all [CATEGORY] type')
+@option('--list', '-l', 'list_category', is_flag=True, default=False, help='Show all [CATEGORY] type')
 def cli(
         category='all',
         list_category=False,
 ):
     if list_category:
         get_hatena_categories()
+    elif category is None and not list_category:
+        echo('set category or reference helps [-h / --help]')
     else:
         get_hatena_hotentry(category)
 
