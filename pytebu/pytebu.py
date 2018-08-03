@@ -9,9 +9,12 @@ from click import (
 
 CONTEXT_SETTINGS = dict(ignore_unknown_options=True, help_option_names=["-h", "--help"])
 HATENA_URL_BASE = 'http://b.hatena.ne.jp/hotentry/'
-
+CATEGORIES = ['all', 'general', 'social', 'economics', 'life', 'knowledge', 'it', 'fun', 'entertainment', 'game']
 
 def get_hatena_hotentry(category='all', top=10):
+    if category not in CATEGORIES:
+        echo(f'Category: {category} is not found, so show "all" category', color='warning')
+        category = 'all'
     url = HATENA_URL_BASE + category
 
     session = HTMLSession()
@@ -65,10 +68,10 @@ def cli(
 ):
     if list_category:
         get_hatena_categories()
-    elif category is None and not list_category:
-        echo('set category or reference helps [-h / --help]')
-    else:
+    elif category:
         get_hatena_hotentry(category)
+    elif category is None and list_category is False:
+        echo('set category or reference helps [-h / --help]')
 
 
 if __name__ == '__main__':
