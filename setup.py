@@ -25,7 +25,7 @@ setuptools.setup(
     ),
     entry_points={
         "console_scripts": [
-            "pytebu=pytebu.pytebu:main",
+            "pytebu=pytebu.pytebu:cli",
         ]
     },
     install_requires=required

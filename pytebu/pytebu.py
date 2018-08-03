@@ -57,7 +57,7 @@ def get_hatena_categories():
 
 @command(short_help="Hatena category", context_settings=CONTEXT_SETTINGS)
 @argument('category', required=False)
-@option('--list/-l', 'list_category', is_flag=True, default=False)
+@option('--list/-l', 'list_category', is_flag=True, default=False, help='Show all [CATEGORY] type')
 def cli(
         category='all',
         list_category=False,
